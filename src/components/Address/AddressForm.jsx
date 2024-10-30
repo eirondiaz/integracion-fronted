@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -8,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import { Add, Edit } from '@mui/icons-material'
 import { Controller, useForm } from 'react-hook-form'
 import React, { useEffect } from 'react'
@@ -187,8 +187,10 @@ const AddressForm = ({
             />
           )}
         />
-        <Button
-          disabled={!isValid || loading || loadingEdit}
+        <LoadingButton
+          loading={loading || loadingEdit}
+          loadingPosition="start"
+          disabled={!isValid}
           startIcon={isEditing ? <Edit /> : <Add />}
           type="submit"
           sx={{ mt: 3, height: 50 }}
@@ -196,7 +198,7 @@ const AddressForm = ({
           fullWidth
         >
           {isEditing ? 'Update' : 'Add'}
-        </Button>
+        </LoadingButton>
       </form>
     </Box>
   )

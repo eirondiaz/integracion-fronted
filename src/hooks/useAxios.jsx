@@ -14,6 +14,8 @@ const useAxios = ({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  console.log(process.env.REACT_APP_API_URL)
+
   const sendRequest = useCallback(
     async (body = null) => {
       setLoading(true)
@@ -25,7 +27,7 @@ const useAxios = ({
           params,
           data: body,
         })
-        setData(res.data.data)
+        setData(res.data)
         if (tryCB) tryCB()
       } catch (err) {
         console.log(err)

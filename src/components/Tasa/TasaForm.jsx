@@ -1,12 +1,20 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import { Add, Edit } from '@mui/icons-material'
-import { Controller, useForm } from 'react-hook-form'
-import React from 'react'
-import useAxios from '../../hooks/useAxios'
-import { useSnackbar } from 'notistack'
-import { LoadingButton } from '@mui/lab'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Add, Edit } from '@mui/icons-material';
+import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import useAxios from '../../hooks/useAxios';
+import { useSnackbar } from 'notistack';
 
-const ClientForm = ({
+const TasaForm = ({
   element = {},
   isEditing = false,
   setIsEditing,
@@ -17,117 +25,83 @@ const ClientForm = ({
     handleSubmit,
     control,
     formState: { isValid },
-  } = useForm({ mode: 'onChange', defaultValues: element })
+  } = useForm({ mode: 'onChange', defaultValues: element });
 
-  const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = (data) => {
-    isEditing ? onUpdate(data) : onCreate(data)
-  }
+    isEditing ? onUpdate(data) : onCreate(data);
+  };
 
   const { loading, sendRequest: onCreate } = useAxios({
-    path: '/clients',
+    path: '/tasa-cambiaria',
     method: 'POST',
     finallyCB: () => setIsEditing(false),
     catchCB: (errorMessage) => {
       enqueueSnackbar(errorMessage, {
         variant: 'error',
-      })
+      });
     },
     tryCB: () => {
-      setRefresh((prevVal) => !prevVal)
-      setOpen(false)
+      setRefresh((prevVal) => !prevVal);
+      setOpen(false);
       enqueueSnackbar('Created successfully!', {
         variant: 'success',
-      })
+      });
     },
-  })
+  });
 
   const { loading: loadingEdit, sendRequest: onUpdate } = useAxios({
-    path: `/clients/${element?.id}`,
+    path: `/tasa-cambiaria/${element?.id}`,
     method: 'PUT',
     finallyCB: () => setIsEditing(false),
     catchCB: (errorMessage) => {
       enqueueSnackbar(errorMessage, {
         variant: 'error',
-      })
+      });
     },
     tryCB: () => {
-      setRefresh((prevVal) => !prevVal)
-      setOpen(false)
+      setRefresh((prevVal) => !prevVal);
+      setOpen(false);
       enqueueSnackbar('Edited successfully!', {
         variant: 'success',
-      })
+      });
     },
-  })
+  });
 
   return (
     <Box>
       <Typography variant="h5">{`${
         isEditing ? 'Edit' : 'Add'
-      } Client`}</Typography>
+      } Tasa`}</Typography>
       <form style={{ marginTop: 25 }} onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
-          name="name"
+          name="codigoMoneda"
           rules={{ required: true }}
           render={({ field }) => (
             <TextField
               {...field}
               required
               sx={{ width: '100%', mb: 2 }}
-              label="Name"
+              label="Codigo de Moneda"
               variant="outlined"
-              defaultValue={element?.name || ''}
+              defaultValue={element?.codigoMoneda || ''}
             />
           )}
         />
         <Controller
           control={control}
-          name="lastName"
+          name="tasa"
           rules={{ required: true }}
           render={({ field }) => (
             <TextField
               {...field}
               required
               sx={{ width: '100%', mb: 2 }}
-              label="Last name"
+              label="Tasa"
               variant="outlined"
-              defaultValue={element?.lastName || ''}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="email"
-          rules={{
-            required: true,
-            pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              required
-              sx={{ width: '100%', mb: 2 }}
-              label="Email"
-              variant="outlined"
-              defaultValue={element?.email || ''}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="phoneNumber"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              required
-              sx={{ width: '100%', mb: 2 }}
-              label="Phone number"
-              type="number"
-              variant="outlined"
-              defaultValue={element?.phoneNumber || ''}
+              defaultValue={element?.tasa || ''}
             />
           )}
         />
@@ -145,7 +119,7 @@ const ClientForm = ({
         </LoadingButton>
       </form>
     </Box>
-  )
-}
+  );
+};
 
-export default ClientForm
+export default TasaForm;

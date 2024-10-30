@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material'
-import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material'
+import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import ClientTable from './ClientTable'
 import { Filter } from './Filter'
@@ -16,14 +16,6 @@ const ClientScreen = () => {
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h5">Client Managment</Typography>
         <Tooltip title="Agregar">
-          {/* <Button
-            onClick={handleOpen}
-            size="small"
-            variant="contained"
-            startIcon={<Add />}
-          >
-            Add
-          </Button> */}
           <IconButton onClick={handleOpen}>
             <Add color="primary" />
           </IconButton>
