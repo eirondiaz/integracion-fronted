@@ -32,6 +32,7 @@ const HistorialForm = ({
   } = useForm({ mode: 'onChange', defaultValues: element });
   const [isValidCedula, setIsValidCedula] = useState(true);
 
+  
   const [selectedDate, setSelectedDate] = useState(
     element?.fecha ? dayjs(element.fecha) : null
   );
